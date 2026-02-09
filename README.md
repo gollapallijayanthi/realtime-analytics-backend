@@ -70,7 +70,7 @@ The application is designed to handle:
 ├── .env.example
 └── README.md
 
-````
+
 
 ---
 
