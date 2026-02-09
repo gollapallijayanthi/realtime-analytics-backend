@@ -1,4 +1,4 @@
-```markdown
+```
 # Real-Time Analytics Backend API
 
 ## Project Overview
