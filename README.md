@@ -47,7 +47,7 @@ The application is designed to handle:
 
 ## Project Structure
 
-```
+
 
 .
 ├── src/
