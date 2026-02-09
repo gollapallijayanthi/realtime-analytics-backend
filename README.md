@@ -1,4 +1,3 @@
-```
 # Real-Time Analytics Backend API
 
 ## Project Overview
@@ -295,4 +294,4 @@ See `.env.example` for reference.
 ## Conclusion
 
 This project demonstrates a **fault-tolerant, scalable backend API** using modern distributed systems patterns.
-```
+
