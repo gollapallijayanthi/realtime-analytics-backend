@@ -46,32 +46,27 @@ The application is designed to handle:
 
 ## Project Structure
 
-
-
 .
 ├── src/
-│   ├── main.py                 # Application entry point
-│   ├── api/
-│   │   └── metrics.py          # API endpoints
-│   ├── services/
-│   │   ├── cache_service.py    # Redis caching logic
-│   │   ├── rate_limiter.py     # Redis rate limiting
-│   │   ├── circuit_breaker.py  # Circuit breaker implementation
-│   │   └── external_service.py # External service simulator
-│   └── config/
-│       └── settings.py         # Environment & config loading
+│ ├── main.py # Application entry point
+│ ├── api/
+│ │ └── metrics.py # API endpoints
+│ ├── services/
+│ │ ├── cache_service.py # Redis caching logic
+│ │ ├── rate_limiter.py # Redis rate limiting
+│ │ ├── circuit_breaker.py # Circuit breaker implementation
+│ │ └── external_service.py # External service simulator
+│ └── config/
+│ └── settings.py # Environment & config loading
 ├── tests/
-│   ├── test_api_integration.py
-│   ├── test_rate_limiting.py
-│   └── test_circuit_breaker.py
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── .env.example
-└── README.md
-
-
-
+│ ├── test_api_integration.py # API + Redis integration tests
+│ ├── test_rate_limiting.py # Rate limiter tests
+│ └── test_circuit_breaker.py # Circuit breaker tests
+├── Dockerfile # Backend container definition
+├── docker-compose.yml # App + Redis orchestration
+├── requirements.txt # Python dependencies
+├── .env.example # Environment variables reference
+└── README.md # Project documentation
 ---
 
 ## Prerequisites
