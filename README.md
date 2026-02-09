@@ -1,444 +1,298 @@
-\# Real-Time Analytics Backend API
+```markdown
+# Real-Time Analytics Backend API
 
+## Project Overview
 
+This project is a **production-grade backend API** for a simulated real-time analytics service.
 
-\## Project Overview
+It demonstrates how to build **high-performance, fault-tolerant backend systems** using modern resilience patterns such as **Redis caching, rate limiting, and circuit breakers**, all deployed using **Docker**.
 
-This project is a robust backend API for a simulated real-time analytics service.  
-
-It is designed using production-grade backend engineering patterns to ensure high availability, performance, and fault tolerance.
-
-
-
-The application demonstrates:
-
-\- Redis-based caching
-
-\- Redis-backed rate limiting
-
-\- Circuit breaker pattern for external service resilience
-
-\- Dockerized deployment with docker-compose
-
-\- Automated unit and integration testing
-
-
-
-This project is suitable for enterprise backend systems that must handle varying loads and external service failures reliably.
-
-
+The application is designed to handle:
+- High request volumes
+- Repeated read operations efficiently
+- External service failures gracefully
 
 ---
 
+## Key Features
 
-
-\## Tech Stack
-
-\- \*\*Backend Framework:\*\* FastAPI (Python)
-
-\- \*\*Caching \& Rate Limiting:\*\* Redis
-
-\- \*\*Containerization:\*\* Docker, Docker Compose
-
-\- \*\*Testing:\*\* Pytest
-
-\- \*\*Language:\*\* Python 3.9+
-
-
+- RESTful API built with FastAPI
+- Redis-backed read-through caching
+- Redis-backed rate limiting
+- Circuit breaker pattern for external service protection
+- Fully Dockerized using Docker & Docker Compose
+- Automated unit and integration tests
 
 ---
 
+## Tech Stack
 
-
-\## Architecture Overview
-
-\- Metrics are ingested via REST APIs.
-
-\- Aggregated summaries are cached in Redis using a read-through strategy.
-
-\- Rate limiting protects the API from abuse.
-
-\- A circuit breaker protects calls to an unreliable external service.
-
-\- All services run in isolated Docker containers.
-
-
+- **Backend Framework:** FastAPI (Python)
+- **Caching & Rate Limiting:** Redis
+- **Containerization:** Docker, Docker Compose
+- **Testing:** Pytest
+- **Runtime:** Python 3.9+
 
 ---
 
+## Architecture Overview
 
+- Metrics are ingested via REST APIs
+- Aggregated metric summaries are cached in Redis
+- Rate limiting prevents API abuse
+- Circuit breaker protects calls to an unreliable external service
+- Application and Redis run in isolated Docker containers
 
-\## Project Structure
+---
+
+## Project Structure
 
 ```
-
-
 
 .
-
 ├── src/
-
-│   ├── main.py
-
+│   ├── main.py                 # Application entry point
 │   ├── api/
-
-│   │   └── metrics.py
-
+│   │   └── metrics.py          # API endpoints
 │   ├── services/
-
-│   │   ├── cache\_service.py
-
-│   │   ├── rate\_limiter.py
-
-│   │   ├── circuit\_breaker.py
-
-│   │   └── external\_service.py
-
+│   │   ├── cache_service.py    # Redis caching logic
+│   │   ├── rate_limiter.py     # Redis rate limiting
+│   │   ├── circuit_breaker.py  # Circuit breaker implementation
+│   │   └── external_service.py # External service simulator
 │   └── config/
-
-│       └── settings.py
-
+│       └── settings.py         # Environment & config loading
 ├── tests/
-
-│   ├── test\_api\_integration.py
-
-│   ├── test\_rate\_limiting.py
-
-│   └── test\_circuit\_breaker.py
-
+│   ├── test_api_integration.py
+│   ├── test_rate_limiting.py
+│   └── test_circuit_breaker.py
 ├── Dockerfile
-
 ├── docker-compose.yml
-
 ├── requirements.txt
-
 ├── .env.example
-
 └── README.md
 
-
-
 ````
-
-
 
 ---
 
+## Prerequisites
 
+Ensure the following are installed:
 
-\## Setup \& Running the Application
+- Docker
+- Docker Compose
+- Git
 
+---
 
+## Setup Instructions (For Testers)
 
-\### Prerequisites
-
-\- Docker
-
-\- Docker Compose
-
-
-
-\### Build and Run
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/gollapallijayanthi/realtime-analytics-backend.git
+cd realtime-analytics-backend
+````
 
+---
+
+### 2. Build and Run the Application
+
+```bash
 docker-compose up --build
-
-````
-
-
-
-The API will be available at:
-
-
-
 ```
 
-http://localhost:8000
+This will:
 
-```
-
-
+* Build the backend image
+* Start Redis
+* Start the FastAPI application
+* Wait for health checks to pass
 
 ---
 
-
-
-\## Health Check
-
-
+### 3. Verify Application Health
 
 ```bash
-
 curl http://localhost:8000/health
-
 ```
 
-
-
-Response:
-
-
+Expected response:
 
 ```json
-
 {"status":"ok"}
-
 ```
-
-
 
 ---
 
+## API Testing Guide
 
+### 1. Create a Metric
 
-\## API Endpoints
-
-
-
-\### 1. Create Metric
-
-
-
-\*\*POST /api/metrics\*\*
-
-
+**POST /api/metrics**
 
 ```bash
-
-curl -X POST http://localhost:8000/api/metrics \\
-
--H "Content-Type: application/json" \\
-
+curl -X POST http://localhost:8000/api/metrics \
+-H "Content-Type: application/json" \
 -d '{"timestamp":"2025-01-01T10:00:00","value":75,"type":"cpu"}'
-
 ```
 
-
-
-Response:
-
-
+Expected response:
 
 ```json
-
 {"message":"Metric stored successfully"}
-
 ```
-
-
 
 ---
 
+### 2. Get Metric Summary (Cached)
 
-
-\### 2. Get Metric Summary
-
-
-
-\*\*GET /api/metrics/summary\*\*
-
-
+**GET /api/metrics/summary**
 
 ```bash
-
-curl "http://localhost:8000/api/metrics/summary?metric\_type=cpu"
-
+curl "http://localhost:8000/api/metrics/summary?metric_type=cpu"
 ```
 
-
-
-Response:
-
-
+Expected response:
 
 ```json
-
 {"type":"cpu","count":1,"average":75.0}
-
 ```
 
-
-
-This endpoint uses Redis read-through caching with a configurable TTL.
-
-
+✔ This endpoint uses **Redis read-through caching**
+✔ Repeated calls are served from cache while TTL is valid
 
 ---
 
-
-
-\### 3. External Service (Circuit Breaker Protected)
-
-
-
-\*\*GET /external\*\*
-
-
+### 3. Verify Redis Cache
 
 ```bash
-
-curl http://localhost:8000/external
-
+docker exec -it realtime-analytics-backend-redis-1 redis-cli
+KEYS *
 ```
 
-
-
-Possible responses:
-
-
-
-```json
-
-{"external":"ok","value":134}
+Expected output example:
 
 ```
-
-
-
-Fallback when circuit is open:
-
-
-
-```json
-
-{"fallback":true,"reason":"external service failure"}
-
+1) "summary:cpu"
 ```
-
-
 
 ---
 
+## Rate Limiting Verification
 
+Rate limit is enforced on **POST /api/metrics**
 
-\## Caching Strategy (Redis)
+* Default limit: **5 requests per minute per IP**
 
+```bash
+for i in {1..6}; do
+  curl -X POST http://localhost:8000/api/metrics \
+  -H "Content-Type: application/json" \
+  -d '{"timestamp":"2025-01-01T10:00:00","value":50,"type":"cpu"}'
+done
+```
 
+Expected behavior:
 
-\* Read-through caching for metric summaries
+* First 5 requests → success
+* 6th request → rejected
 
-\* Configurable TTL
+Expected response:
 
-\* Cache invalidation on metric creation
+```json
+{"detail":"Too many requests"}
+```
 
-\* Prevents repeated computation of summaries
+HTTP status:
 
-
-
----
-
-
-
-\## Rate Limiting
-
-
-
-\* Redis-backed rate limiter
-
-\* Applied to POST `/api/metrics`
-
-\* Default limit: 5 requests per minute per IP
-
-\* Exceeding limit returns:
-
-
-
-```http
-
+```
 429 Too Many Requests
-
-Retry-After: <seconds>
-
 ```
 
-
-
----
-
-
-
-\## Circuit Breaker Pattern
-
-
-
-\* Protects external service calls
-
-\* States:
-
-
-
-&nbsp; \* Closed
-
-&nbsp; \* Open
-
-&nbsp; \* Half-Open
-
-\* Automatically recovers after reset timeout
-
-\* Prevents cascading failures
-
-
+Includes `Retry-After` header.
 
 ---
 
+## Circuit Breaker Verification
 
+### External Service Endpoint
 
-\## Running Tests
-
-
-
-All unit and integration tests can be run using:
-
-
+**GET /external**
 
 ```bash
-
-pytest
-
+curl http://localhost:8000/external
 ```
 
+Normal response:
 
+```json
+{"external":"ok","value":134}
+```
+
+When failure threshold is exceeded, circuit opens and fallback is returned:
+
+```json
+{"fallback":true,"reason":"external service failure"}
+```
+
+✔ Circuit transitions through:
+
+* Closed
+* Open
+* Half-Open
+* Closed (on recovery)
+
+---
+
+## Running Automated Tests
+
+All unit and integration tests can be executed locally using:
+
+```bash
+pytest
+```
 
 Expected output:
 
+```
+==================== test session starts ====================
+collected 5 items
 
+tests/test_api_integration.py ...
+tests/test_circuit_breaker.py .
+tests/test_rate_limiting.py .
 
+==================== 5 passed in Xs ====================
 ```
 
-5 passed in Xs
+✔ Tests cover:
 
-```
-
-
+* API behavior
+* Redis caching
+* Rate limiting
+* Circuit breaker state transitions
 
 ---
 
+## Docker & Health Checks
 
-
-\## Docker \& Health Checks
-
-
-
-\* Application and Redis run in separate containers
-
-\* Redis health check included
-
-\* Application health check verifies `/health` endpoint
-
-\* Services start only when dependencies are healthy
-
-
+* Application and Redis run in separate containers
+* Redis health check included
+* Application health check validates `/health`
+* `depends_on` ensures correct startup order
 
 ---
 
+## Environment Configuration
 
+All configuration values are externalized via environment variables.
 
-\## Conclusion
+See `.env.example` for reference.
 
+---
 
+## Conclusion
 
-This project demonstrates a fault-tolerant, scalable backend API using modern distributed system patterns. It is production-ready and suitable for real-world backend engineering roles.
-
-
-
+This project demonstrates a **fault-tolerant, scalable backend API** using modern distributed systems patterns.
+```
