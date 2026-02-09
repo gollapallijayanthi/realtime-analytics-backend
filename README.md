@@ -46,27 +46,32 @@ The application is designed to handle:
 
 ## Project Structure
 
+```
+
 .
 ├── src/
-│ ├── main.py # Application entry point
-│ ├── api/
-│ │ └── metrics.py # API endpoints
-│ ├── services/
-│ │ ├── cache_service.py # Redis caching logic
-│ │ ├── rate_limiter.py # Redis rate limiting
-│ │ ├── circuit_breaker.py # Circuit breaker implementation
-│ │ └── external_service.py # External service simulator
-│ └── config/
-│ └── settings.py # Environment & config loading
+│   ├── main.py                 # Application entry point
+│   ├── api/
+│   │   └── metrics.py          # API endpoints
+│   ├── services/
+│   │   ├── cache_service.py    # Redis caching logic
+│   │   ├── rate_limiter.py     # Redis rate limiting
+│   │   ├── circuit_breaker.py  # Circuit breaker implementation
+│   │   └── external_service.py # External service simulator
+│   └── config/
+│       └── settings.py         # Environment & config loading
 ├── tests/
-│ ├── test_api_integration.py # API + Redis integration tests
-│ ├── test_rate_limiting.py # Rate limiter tests
-│ └── test_circuit_breaker.py # Circuit breaker tests
-├── Dockerfile # Backend container definition
-├── docker-compose.yml # App + Redis orchestration
-├── requirements.txt # Python dependencies
-├── .env.example # Environment variables reference
-└── README.md # Project documentation
+│   ├── test_api_integration.py # API + Redis integration tests
+│   ├── test_rate_limiting.py   # Rate limiter tests
+│   └── test_circuit_breaker.py # Circuit breaker tests
+├── Dockerfile                  # Backend container definition
+├── docker-compose.yml          # App + Redis orchestration
+├── requirements.txt            # Python dependencies
+├── .env.example                # Environment variables reference
+└── README.md                   # Project documentation
+
+````
+
 ---
 
 ## Prerequisites
@@ -289,4 +294,6 @@ See `.env.example` for reference.
 ## Conclusion
 
 This project demonstrates a **fault-tolerant, scalable backend API** using modern distributed systems patterns.
+It is production-ready and suitable for real-world backend engineering roles.
+
 
